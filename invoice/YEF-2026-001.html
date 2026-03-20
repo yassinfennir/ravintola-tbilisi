@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lasku YEF-2026-001 — Ravintola Tbilisi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    .invoice-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    /* ── Header ── */
+    .invoice-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: #fff;
+      padding: 48px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .brand h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .brand .tagline {
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 300;
+    }
+
+    .invoice-badge {
+      text-align: right;
+    }
+
+    .invoice-badge .label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #60a5fa;
+    }
+
+    .invoice-badge .number {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* ── Info Bar ── */
+    .info-bar {
+      background: #f1f5f9;
+      padding: 24px 56px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .info-group label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .info-group .value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    /* ── Parties ── */
+    .parties {
+      display: flex;
+      justify-content: space-between;
+      padding: 40px 56px 32px;
+    }
+
+    .party h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .party .name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .party p {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    /* ── Table ── */
+    .items-section {
+      padding: 0 56px 40px;
+    }
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .items-table thead th {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+      font-weight: 500;
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .items-table thead th:last-child {
+      text-align: right;
+    }
+
+    .items-table tbody td {
+      padding: 18px 16px;
+      font-size: 14px;
+      color: #334155;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+    }
+
+    .items-table tbody td:last-child {
+      text-align: right;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .item-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .item-desc {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* ── Totals ── */
+    .totals {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 56px 40px;
+    }
+
+    .totals-box {
+      width: 280px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .totals-row.subtotal {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .totals-row.tax {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .totals-row.total {
+      padding: 16px 0 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* ── Payment ── */
+    .payment-section {
+      background: #f8fafc;
+      border-top: 2px solid #e2e8f0;
+      padding: 32px 56px;
+    }
+
+    .payment-section h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .payment-item label {
+      font-size: 12px;
+      color: #64748b;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .payment-item .value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Footer ── */
+    .invoice-footer {
+      padding: 32px 56px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .guarantee-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    .guarantee-box h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #166534;
+      margin-bottom: 6px;
+    }
+
+    .guarantee-box p {
+      font-size: 13px;
+      color: #15803d;
+      line-height: 1.6;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.8;
+    }
+
+    .footer-note strong {
+      color: #64748b;
+    }
+
+    /* ── Status Badge ── */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+    }
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .status-paid {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    /* ── Print button ── */
+    .print-bar {
+      max-width: 800px;
+      margin: 24px auto;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-print {
+      font-family: 'Poppins', sans-serif;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-print.primary {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .btn-print.primary:hover {
+      background: #1e293b;
+    }
+
+    .btn-print.secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-print.secondary:hover {
+      background: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Print Bar -->
+  <div class="print-bar no-print">
+    <button class="btn-print primary" onclick="window.print()">Tulosta / Tallenna PDF</button>
+    <button class="btn-print secondary" onclick="window.history.back()">Takaisin</button>
+  </div>
+
+  <div class="invoice-container">
+
+    <!-- Header -->
+    <div class="invoice-header">
+      <div class="brand">
+        <h1>Yassin El Fennir</h1>
+        <div class="tagline">Verkkosivujen suunnittelu ja kehitys</div>
+      </div>
+      <div class="invoice-badge">
+        <div class="label">LASKU</div>
+        <div class="number">YEF-2026-001</div>
+      </div>
+    </div>
+
+    <!-- Info Bar -->
+    <div class="info-bar">
+      <div class="info-group">
+        <label>Laskun paivamaara</label>
+        <div class="value">15.3.2026</div>
+      </div>
+      <div class="info-group">
+        <label>Erapaiva</label>
+        <div class="value">29.3.2026</div>
+      </div>
+      <div class="info-group">
+        <label>Viitenumero</label>
+        <div class="value">202600017</div>
+      </div>
+      <div class="info-group">
+        <label>Tila</label>
+        <div class="status-badge status-pending">AVOIN</div>
+      </div>
+    </div>
+
+    <!-- Parties -->
+    <div class="parties">
+      <div class="party">
+        <h3>Lahettaja</h3>
+        <div class="name">Yassin El Fennir</div>
+        <p>
+          Verkkosivujen suunnittelu ja kehitys<br>
+          yassinfennir@gmail.com<br>
+          +358 46 610 9064<br>
+          Helsinki, Suomi
+        </p>
+      </div>
+      <div class="party">
+        <h3>Vastaanottaja</h3>
+        <div class="name">Ravintola Tbilisi</div>
+        <p>
+          Ravintola Tbilisi<br>
+          info@tbilisi.fi<br>
+          050 3388818<br>
+          Helsinki, Suomi
+        </p>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="items-section">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th style="width:60%">Kuvaus</th>
+            <th>Maara</th>
+            <th>Hinta</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>
+              <div class="item-name">Verkkosivuston suunnittelu ja toteutus</div>
+              <div class="item-desc">Moderni, responsiivinen verkkosivusto yrityksellenne</div>
+            </td>
+            <td>1</td>
+            <td>369,00</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">Mobiilioptimointi</div>
+              <div class="item-desc">Taysin toimiva kaikilla laitteilla</div>
+            </td>
+            <td>1</td>
+            <td>Sisaltyy</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">Hakukoneoptimointi (SEO)</div>
+              <div class="item-desc">Perus-SEO-asetukset ja metatiedot</div>
+            </td>
+            <td>1</td>
+            <td>Sisaltyy</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">30 paivan tuki</div>
+              <div class="item-desc">Muutokset ja tekninen tuki</div>
+            </td>
+            <td>1</td>
+            <td>Sisaltyy</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Totals -->
+    <div class="totals">
+      <div class="totals-box">
+        <div class="totals-row subtotal">
+          <span>Valitulokset</span>
+          <span>369,00 EUR</span>
+        </div>
+        <div class="totals-row tax">
+          <span>ALV (0% — Pienyritys)</span>
+          <span>0,00 EUR</span>
+        </div>
+        <div class="totals-row total">
+          <span>Yhteensa</span>
+          <span>369,00 EUR</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="payment-section">
+      <h3>Maksutiedot</h3>
+      <div class="payment-grid">
+        <div class="payment-item">
+          <label>Saaja</label>
+          <div class="value">Yassin El Fennir</div>
+        </div>
+        <div class="payment-item">
+          <label>IBAN</label>
+          <div class="value">FI07 3939 0019 5384 20</div>
+        </div>
+        <div class="payment-item">
+          <label>Pankki</label>
+          <div class="value">OP Osuuspankki</div>
+        </div>
+        <div class="payment-item">
+          <label>Viitenumero</label>
+          <div class="value">202600017</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="invoice-footer">
+      <div class="guarantee-box">
+        <h4>Tyytyvsisyystakuu</h4>
+        <p>
+          Kaikkiin verkkosivustoihimme sisaltyy 30 paivan tuki. Jos ette ole tyytyvainen, teemme tarvittavat muutokset veloituksetta. Asiakkaiden tyytyvsisyys on meille tarkeinta.
+        </p>
+      </div>
+      <div class="footer-note">
+        <strong>Yassin El Fennir</strong> — Verkkosivujen suunnittelu ja kehitys<br>
+        yassinfennir@gmail.com &middot; +358 46 610 9064 &middot; Helsinki, Suomi<br>
+        Pienyritys — ALV-vapaa (AVL 3 &sect;)
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
